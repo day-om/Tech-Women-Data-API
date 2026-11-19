@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+sqlalchemy
+pymysql
+python-dotenv
+pytest
+httpx
+pytest-cov
+streamlit
+plotly
+requests
+pandas
+cryptography
