@@ -120,8 +120,10 @@ with st.sidebar:
         "Extração SQL via BigQuery (Base dos Dados), limpeza e análise exploratória em Python "
         "(Pandas, Matplotlib e Seaborn)."
     )
-    st.markdown("**Notebook de Referência:**")
-    st.code("notebooks/Tech_Women_Data_API.ipynb", language="text")
+    st.markdown("**Links do Projeto:**")
+    st.markdown(
+        "📓 [Notebook de Referência (.ipynb)](https://github.com/day-om/Tech-Women-Data-API/blob/main/notebooks/Tech_Women_Data_API.ipynb)  \n"
+    )
 
 
 # Cabeçalho principal
