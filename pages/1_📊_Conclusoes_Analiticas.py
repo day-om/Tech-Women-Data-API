@@ -135,18 +135,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Destaque do Notebook
-st.markdown(
-    """
-    <div class="notebook-box">
-        📓 <b>Código completo e gráficos exploratórios:</b> A extração completa de SQL do BigQuery, o pipeline de limpeza de dados
-        e as visualizações estatísticas em Matplotlib/Seaborn estão documentados em
-        <code>notebooks/Tech_Women_Data_API.ipynb</code>.
-    </div>
-    """,
-    unsafe_allow_html=True,
-)
-
 # 1. Resumo da Trajetória Acadêmica Feminina (Cards + Tabela)
 st.subheader("🏁 Resumo da Trajetória Acadêmica Feminina (2009–2024)")
 
