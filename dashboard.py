@@ -85,6 +85,7 @@ st.markdown(
         font-size: 0.95rem;
     }
     #MainMenu {visibility: hidden;}
+    [data-testid="stSidebarNav"] {display: none;}
     footer {visibility: hidden;}
     .stDeployButton {display: none;}
     [data-testid="stPlotlyChart"] {

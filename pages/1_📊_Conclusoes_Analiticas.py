@@ -75,6 +75,7 @@ st.markdown(
         color: #3B0764;
     }
     #MainMenu {visibility: hidden;}
+    [data-testid="stSidebarNav"] {display: none;}
     footer {visibility: hidden;}
     .stDeployButton {display: none;}
     [data-testid="stPlotlyChart"] {
