@@ -1,16 +1,60 @@
 # 📊 Tech Women Data API — Women in Higher Education Tech
 
-> **Data Analysis Pipeline & REST API** developed to map, analyze, and provide data on the representation, academic trajectory, and persistence of women in Information Technology higher education courses in Brazil over a 15-year period (2009–2024).
+> **Data Analysis Pipeline, REST API & Interactive Dashboard** developed to map, analyze, and provide data on the representation, academic trajectory, and persistence of women in Information Technology higher education courses in Brazil over a 15-year period (2009–2024).
 
 ---
 
 ## 📌 About the Project
 
-This project combines **Data Analysis** and **Backend Development (REST API)** to transform public microdata into accessible insights regarding gender equity in IT education.
+This project combines **Data Analysis**, **Backend Development (REST API)**, and **Interactive Data Visualization** to transform public microdata into accessible insights regarding gender equity in IT education.
 
 The primary goal is to understand the evolution of female representation in Brazilian colleges and universities, identifying key bottlenecks such as dropout rates, regional disparities, and program-level participation affecting enrollment and graduation.
 
 The core focus of this project is tracking **female representation** (entrants, active enrolled, and graduates) relative to the **overall student body count** across technology courses in Brazil.
+
+---
+
+## 🏗️ System Architecture
+
+The solution follows an end-to-end cloud data architecture — from raw public microdata extraction and Star Schema modeling to a REST API and an interactive multi-page web dashboard:
+
+```mermaid
+flowchart TB
+    subgraph S1 ["1. Data Extraction & ETL Pipeline"]
+        direction LR
+        BQ[("Google BigQuery<br/>INEP Higher Education Census<br/>(2009–2024)")]
+        NB["Jupyter Notebook<br/>Python • Pandas • NumPy<br/>Data Cleaning & EDA"]
+        BQ -->|"SQL Query"| NB
+    end
+
+    subgraph S2 ["2. Cloud Relational Storage (Aiven)"]
+        MYSQL[("MySQL Database<br/>Star Schema Model<br/>(fact_metrics, dim_location, dim_program)")]
+    end
+
+    subgraph S3 ["3. Backend REST API (Render)"]
+        FAST["FastAPI + SQLAlchemy<br/>REST JSON Endpoints (/api/v1/...)<br/>OpenAPI / Swagger UI (/docs)"]
+    end
+
+    subgraph S4 ["4. Interactive Web App (Streamlit Cloud)"]
+        ST["Streamlit + Plotly<br/>• Interactive Observatory (dashboard.py)<br/>• Analytical Conclusions (pages/)"]
+    end
+
+    GH(["GitHub Repository<br/>day-om/Tech-Women-Data-API"])
+
+    NB -->|"Batch Load"| MYSQL
+    MYSQL <-->|"SQL Queries"| FAST
+    FAST <-->|"HTTP / JSON"| ST
+
+    GH -.->|"Auto-Deploy"| FAST
+    GH -.->|"Auto-Deploy"| ST
+
+    style BQ fill:#E0F2FE,stroke:#0284C7,stroke-width:2px,color:#0F172A
+    style NB fill:#F3E8FF,stroke:#7E22CE,stroke-width:2px,color:#0F172A
+    style MYSQL fill:#FEF3C7,stroke:#D97706,stroke-width:2px,color:#0F172A
+    style FAST fill:#DCFCE7,stroke:#16A34A,stroke-width:2px,color:#0F172A
+    style ST fill:#FCE7F3,stroke:#DB2777,stroke-width:2px,color:#0F172A
+    style GH fill:#F1F5F9,stroke:#475569,stroke-width:2px,color:#0F172A
+```
 
 ---
 
@@ -31,11 +75,12 @@ The attributes cover three key stages of the higher education lifecycle: **Entra
 ## 🛠️ Technologies & Demonstrated Skills
 
 - **Data Processing & ETL:** Python (Pandas, NumPy) for large-scale data cleaning, filtering, and aggregation of public microdata.
-- **Data Visualization:** Matplotlib and Seaborn for generating analytical and temporal charts.
+- **Exploratory Data Visualization:** Matplotlib and Seaborn for generating statistical and temporal charts in notebooks.
 - **Database & Data Modeling:** Google BigQuery for raw data extraction and MySQL (`pymysql`) structured as a **Star Schema** (`fact_metrics`, `dim_location`, `dim_program`) for analytical querying.
 - **Backend & REST API:** Python, FastAPI, SQLAlchemy, Uvicorn, and `python-dotenv` for serving validated JSON endpoints with interactive OpenAPI/Swagger documentation.
+- **Interactive Web Dashboard:** Streamlit and Plotly (`graph_objects`) for multi-page interactive visualizations, dynamic cross-filtering, and CSV data export.
 - **Automated Testing:** Unit and integration test suite built with Pytest, `pytest-cov`, FastAPI `TestClient`, `unittest.mock`, and an in-memory SQLite Star Schema.
-- **Version Control & Methodology:** Git/GitHub managed with Project Boards and Sprint-based organization.
+- **Cloud Infrastructure & Deployment:** Aiven (managed MySQL), Render (FastAPI backend hosting), Streamlit Community Cloud (frontend hosting), and Git/GitHub managed with Project Boards and Sprint-based organization.
 
 ---
 
@@ -44,20 +89,43 @@ The attributes cover three key stages of the higher education lifecycle: **Entra
 ```text
 project_data_API/
 ├── docs/
-│   └── API.md                     # Full endpoint contracts, parameters, and JSON examples
+│   └── API.md                          # Full endpoint contracts, parameters, and JSON examples
 ├── notebooks/
-│   └── Tech_Women_Data_API.ipynb  # BigQuery extraction, data cleaning, and EDA visualizations
+│   └── Tech_Women_Data_API.ipynb       # BigQuery extraction, data cleaning, and EDA visualizations
+├── pages/
+│   └── 1_📊_Conclusoes_Analiticas.py   # Executive synthesis and analytical findings page
 ├── tests/
 │   ├── __init__.py
-│   ├── conftest.py                # Mocked sessions & in-memory Star Schema fixtures
-│   ├── test_unit_routes.py        # HTTP contract, query param validation & session lifecycle tests
-│   └── test_integration_api.py    # End-to-end SQL analytical query validation
-├── .env.example                   # Environment variables template for MySQL connection
-├── .gitignore                     # Rules excluding .env, venv, and test caches
-├── database.py                    # SQLAlchemy engine & session management via environment variables
-├── main.py                        # FastAPI application, query validations, and route definitions
-├── queries.py                     # Analytical SQL queries (KPIs, rankings, dynamic filters)
-└── requirements.txt               # Project and testing dependencies
+│   ├── conftest.py                     # Mocked sessions & in-memory Star Schema fixtures
+│   ├── test_unit_routes.py             # HTTP contract, query param validation & session lifecycle tests
+│   └── test_integration_api.py         # End-to-end SQL analytical query validation
+├── .env.example                        # Environment variables template for MySQL connection
+├── .gitignore                          # Rules excluding .env, secrets.toml, venv, and test caches
+├── dashboard.py                        # Main Streamlit interactive dashboard (Observatory)
+├── database.py                         # SQLAlchemy engine & session management via environment variables
+├── main.py                             # FastAPI application, query validations, and route definitions
+├── queries.py                          # Analytical SQL queries (KPIs, rankings, dynamic filters)
+└── requirements.txt                    # Project, API, dashboard, and testing dependencies
+```
+
+---
+
+## 🖥️ Interactive Dashboard (Streamlit)
+
+The project includes a multi-page **Streamlit + Plotly** web application consuming the REST API in real time:
+
+- **Observatório Interativo (`dashboard.py`):** Historical period slider (2009–2024), funnel KPI cards, donut charts, interactive click-to-filter time series and state (`UF`) rankings, course rankings, and a dynamic API explorer with CSV export.
+- **Conclusões Analíticas (`pages/1_📊_Conclusoes_Analiticas.py`):** Executive summary of the 15-year findings, regional/course highlights, and methodology overview.
+
+- 🌐 **Live Dashboard:** [Access Streamlit App](https://tech-women-data-apii.streamlit.app/)
+- ⚡ **Live API Docs (Swagger):** [Access Render API](https://tech-women-data-api.onrender.com/docs)
+
+### ▶️ Running the Dashboard Locally
+
+With the FastAPI server running on `http://127.0.0.1:8000`, open a second terminal and run:
+
+```bash
+python -m streamlit run dashboard.py
 ```
 
 ---
