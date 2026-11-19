@@ -85,9 +85,13 @@ st.markdown(
         font-size: 0.95rem;
     }
     #MainMenu {visibility: hidden;}
-    [data-testid="stSidebarNav"] {display: none;}
     footer {visibility: hidden;}
     .stDeployButton {display: none;}
+    [data-testid="stSidebarNav"],
+    [data-testid="stSidebarNavItems"],
+    [data-testid="stSidebarNavSeparator"] {
+        display: none !important;
+    }
     [data-testid="stPlotlyChart"] {
         background-color: #FFFFFF;
         border: 1px solid #E2E8F0;
