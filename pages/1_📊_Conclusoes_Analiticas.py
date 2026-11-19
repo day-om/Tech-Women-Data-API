@@ -99,6 +99,22 @@ with st.sidebar:
     st.markdown("### 👩‍💻 Tech Women Data")
     st.caption("Síntese Executiva & Achados da Pesquisa (INEP 2009–2024)")
     st.divider()
+
+    st.markdown("**Navegação:**")
+    st.page_link(
+        "dashboard.py",
+        label="Observatório Interativo",
+        icon="👩‍💻",
+        use_container_width=True,
+    )
+    st.page_link(
+        "pages/1_📊_Conclusoes_Analiticas.py",
+        label="Conclusões Analíticas (2009–2024)",
+        icon="📊",
+        use_container_width=True,
+    )
+    st.divider()
+
     st.markdown("**Metodologia & Pipeline:**")
     st.caption(
         "Extração SQL via BigQuery (Base dos Dados), limpeza e análise exploratória em Python "
@@ -106,6 +122,7 @@ with st.sidebar:
     )
     st.markdown("**Notebook de Referência:**")
     st.code("notebooks/Tech_Women_Data_API.ipynb", language="text")
+
 
 # Cabeçalho principal
 st.markdown(
